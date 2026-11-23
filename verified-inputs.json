@@ -1,0 +1,12 @@
+{
+  "frozen_queries": {
+    "fiqa": 256,
+    "scifact": 300
+  },
+  "historical_beir_series": 36,
+  "layout_series": 90,
+  "pruned_tree_series": 36,
+  "ragtime_cold_series": 2,
+  "sealpir_series": 2,
+  "source_pages_checked": 3320
+}
