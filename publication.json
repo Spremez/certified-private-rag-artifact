@@ -1,0 +1,34 @@
+{
+  "evidence_sha256": "fa382c68049ca0764824b4acb77f3b82acdc75defa4615264588cd8bf7ef274c",
+  "experiment_manifest_sha256": "c771bdb590c544f81ecc6c1df7aaf846e7ed2c46e30800d4cf02efb19d15e2a9",
+  "manifest_entries": 2338,
+  "parts": {
+    "evidence-001.b64": "bf320e272de2caaaf4b0c4204fa77c7ef0e011e8f8e416a630fec56d659236fc",
+    "evidence-002.b64": "07ae86bff4d77d9cf4fcd54e800ed8e581a5f18f21731450c344346f65567aa2",
+    "evidence-003.b64": "1c13937f6d91b9dc8b40803ab2a1e2b6b44e3adacda6a099f4d9d42ed448dd7b",
+    "evidence-004.b64": "9da7ddc7bc2604aaaa7e84d870a35962a2dba94aea69c15f54251c8f356f6d1b",
+    "evidence-005.b64": "463dd86be64bc93c776ad734f0a4e961a37737b4e3f4eb2d84090e2b7cfdd94a",
+    "evidence-006.b64": "af235430bafd33175885218a9281b80b67839a992f8321d891ce3996f56cda4f",
+    "evidence-007.b64": "21f96e4d4fc4411265be589d6f26e0c62d9802b3cd2159a97dd1041007b4b4d0",
+    "evidence-008.b64": "a1a18029b6a8afa93126a63b96d6b887d09a7338b09540afe6ef5497ae4aa85e",
+    "evidence-009.b64": "2147a08928c4d45834081a61107a31345bd694dd350cc7cdf6a2b5033f2d9f32",
+    "evidence-010.b64": "98bd42e162e232d77cdb0e56ebca631a5674f9c25e95cdf546b4ccaf39c169a2",
+    "evidence-011.b64": "1ff5d0b86935c7e7dc63bdbd8b11b45204d163d9d4a3505fa165356a42b35af2",
+    "evidence-012.b64": "476f7153a355f9c776c2126bf03bc6e369d759c93ba6f83249931fafeb42e447",
+    "evidence-013.b64": "0e61bb57880d43dcf153199b3c558c56f471b339b1a5016cb43d9e4d1b575684",
+    "evidence-014.b64": "402d3cc2a9773eb09240fa4eaeca5b344b94484eb1ecdbb496b2d0cf530f8f20",
+    "evidence-015.b64": "78993a8e7e2088b046c61c83424723227fe90be31a5075c0a9bf30f6ba692ec7",
+    "evidence-016.b64": "642bf9a9b214cb23fa794a261f213bbdb8afac6f3e672729f1bbf83ecb645d46",
+    "evidence-017.b64": "0a8c03cd469a1a3f10886cfc2ebf116add404ead1f97cd46b952458ac1648184",
+    "evidence-018.b64": "acc67448d91bfce6622265c6eadd860cd52ca789d68531f379e8e8685e1b6e75",
+    "evidence-019.b64": "b17e64cc927f480dce27ef2d02a46345b71cbcbab59f3e5fa916259b91d42eef",
+    "evidence-020.b64": "f843e27f3a47340615b702be50873559e7b9d9b5a105cf27af902841afeba48c"
+  },
+  "schema": 1,
+  "sources_sha256": "7b586341b91fa287f3407c8decf1f334170c7d7753433c0b513adf0da2396180",
+  "upstream_files": [
+    "data/downloads/fiqa.zip",
+    "data/downloads/scifact.zip",
+    "reader-capture/opened-pages.jsonl"
+  ]
+}

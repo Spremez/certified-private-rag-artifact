@@ -22,4 +22,19 @@ The check generates fresh keys, evaluates each server share and verifies their X
 | `beir.tex` | BFV, full-vector and residual PIR, token modes, and OPRF controls on the same delivery benchmark. |
 | `verified-inputs.json` | Verifier output for 300 SciFact queries, 256 FiQA queries, and 3,320 source-page checks. |
 
-The large evidence archive contains the per-query records and frozen embeddings used by the full reproduction. Its public upload is pending. The published tables report measurements on one host.
+## Reproduce the full results
+
+The frozen experiment ZIP contains the per-query records, embeddings, build and replay scripts, and the file manifest. The published tables report measurements on one host. The ZIP is split into numbered files so each part fits the review host's download limit.
+
+Download and extract the repository ZIP, then run the following commands in the directory containing `recover_artifact.py` with Python 3.12.
+
+```sh
+python3.12 recover_artifact.py
+unzip certified-rag-public.zip
+cd certified-rag-artifact
+python3.12 restore.py review
+```
+
+The reconstructed ZIP is 191,876,035 bytes. Its SHA-256 is `ff6365a125a975e2b9b3256e3861bd65fc38ca011fe7144959595a4f04b854e6`. Each part and the combined ZIP are checked before the output is saved.
+
+On the anonymous mirror, reviewers can also download just `recover_artifact.py` and pass `--mirror` followed by the repository URL printed in the paper. This fetches the same parts directly from the anonymous host. The guide in `certified-rag-artifact/README.md` describes how to restore the original BEIR inputs, verify the 2,338 manifest entries and regenerate the tables. The manuscript inside the frozen ZIP records the experiment snapshot before its artifact URL was assigned. The submitted manuscript supplies the review URL.
