@@ -1,13 +1,12 @@
-"""Reassemble the frozen experiment ZIP from local or anonymously hosted parts."""
+"""Reassemble the frozen experiment ZIP from a downloaded repository snapshot."""
 import argparse
 import base64
+from contextlib import ExitStack
 import hashlib
 import json
 from pathlib import Path
-import re
 import tempfile
-from urllib.parse import urlsplit
-from urllib.request import HTTPRedirectHandler, build_opener
+import zipfile
 
 
 ARCHIVE = "certified-rag-public.zip"
@@ -15,36 +14,29 @@ SHA256 = "ff6365a125a975e2b9b3256e3861bd65fc38ca011fe7144959595a4f04b854e6"
 PARTS = "artifact-parts.json"
 
 
-class SameHostRedirects(HTTPRedirectHandler):
-    def redirect_request(self, req, fp, code, msg, headers, newurl):
-        if urlsplit(newurl)[:2] != ("https", "anonymous.4open.science"):
-            raise ValueError("The mirror tried to redirect the download to another host.")
-        return super().redirect_request(req, fp, code, msg, headers, newurl)
-
-
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument("--mirror", help="Anonymous GitHub repository URL from the paper")
+    parser.add_argument("--snapshot", type=Path, help="Repository ZIP downloaded from the review link or GitHub")
     parser.add_argument("--output", type=Path, default=Path(ARCHIVE))
     args = parser.parse_args()
     folder = Path(__file__).resolve().parent
-    if args.mirror:
-        match = re.fullmatch(r"https://anonymous\.4open\.science/r/([A-Za-z0-9_-]+)(?:/README\.md|/)?", args.mirror)
-        if not match:
-            parser.error("Use the anonymous repository or its README.md URL from the paper.")
-        root = f"https://anonymous.4open.science/api/repo/{match[1]}/file/"
-        guest = build_opener(SameHostRedirects())
+    with ExitStack() as stack:
+        if args.snapshot:
+            snapshot = stack.enter_context(zipfile.ZipFile(args.snapshot))
+            candidates = [name for name in snapshot.namelist() if Path(name).name == PARTS]
+            if len(candidates) != 1:
+                raise ValueError("Expected exactly one artifact-parts.json in the repository ZIP.")
+            prefix = candidates[0].removesuffix(PARTS)
 
-    def read(name):
-        if args.mirror:
-            with guest.open(root + name, timeout=120) as response:
-                return response.read()
-        return (folder / name).read_bytes()
+        def read(name):
+            if args.snapshot:
+                return snapshot.read(prefix + name)
+            return (folder / name).read_bytes()
 
-    manifest = json.loads(read(PARTS))
-    if manifest["sha256"] != SHA256:
-        raise ValueError("This manifest does not describe the frozen experiment ZIP.")
-    with tempfile.TemporaryDirectory(dir=args.output.parent) as scratch:
+        manifest = json.loads(read(PARTS))
+        if manifest["sha256"] != SHA256:
+            raise ValueError("This manifest does not describe the frozen experiment ZIP.")
+        scratch = stack.enter_context(tempfile.TemporaryDirectory(dir=args.output.parent))
         assembled = Path(scratch) / ARCHIVE
         checksum = hashlib.sha256()
         with assembled.open("wb") as output:
